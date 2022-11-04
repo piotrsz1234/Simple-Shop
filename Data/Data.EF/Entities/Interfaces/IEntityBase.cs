@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Data.EF.Entities.Interfaces
 {
-    public interface EntityBase
+    public interface IEntityBase
     {
         [Key]
         public long Id { get; set; }

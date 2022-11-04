@@ -3,7 +3,7 @@ using Data.EF.Entities.Interfaces;
 
 namespace Data.EF.Entities
 {
-    public class SaleProduct : EntityBase
+    public class SaleProduct : IEntityBase
     {
         public long Id { get; set; }
         public DateTime InsertDateUTC { get; set; }

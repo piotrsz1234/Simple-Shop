@@ -18,6 +18,37 @@ namespace Data.EF.Contexts
                     .HasForeignKey("FK_SaleProduct_ProductId").IsRequired().OnDelete(DeleteBehavior.NoAction);
                 entity.HasOne(x => x.Sale).WithMany(x => x.SaleProduct)
                     .HasForeignKey("FK_SaleProduct_SaleId").IsRequired().OnDelete(DeleteBehavior.NoAction);
+                entity.Property(e => e.InsertDateUTC).HasDefaultValueSql("GETUTCDATE()");
+                entity.Property(e => e.ModificationDateUTC).HasDefaultValueSql("GETUTCDATE()");
+                entity.Property(e => e.IsDeleted).HasDefaultValueSql("(0)");
+            });
+
+            builder.Entity<User>(entity =>
+            {
+                entity.Property(e => e.InsertDateUTC).HasDefaultValueSql("GETUTCDATE()");
+                entity.Property(e => e.ModificationDateUTC).HasDefaultValueSql("GETUTCDATE()");
+                entity.Property(e => e.IsDeleted).HasDefaultValueSql("(0)");
+            });
+            
+            builder.Entity<Role>(entity =>
+            {
+                entity.Property(e => e.InsertDateUTC).HasDefaultValueSql("GETUTCDATE()");
+                entity.Property(e => e.ModificationDateUTC).HasDefaultValueSql("GETUTCDATE()");
+                entity.Property(e => e.IsDeleted).HasDefaultValueSql("(0)");
+            });
+            
+            builder.Entity<Sale>(entity =>
+            {
+                entity.Property(e => e.InsertDateUTC).HasDefaultValueSql("GETUTCDATE()");
+                entity.Property(e => e.ModificationDateUTC).HasDefaultValueSql("GETUTCDATE()");
+                entity.Property(e => e.IsDeleted).HasDefaultValueSql("(0)");
+            });
+            
+            builder.Entity<Product>(entity =>
+            {
+                entity.Property(e => e.InsertDateUTC).HasDefaultValueSql("GETUTCDATE()");
+                entity.Property(e => e.ModificationDateUTC).HasDefaultValueSql("GETUTCDATE()");
+                entity.Property(e => e.IsDeleted).HasDefaultValueSql("(0)");
             });
             base.OnModelCreating(builder);
         }

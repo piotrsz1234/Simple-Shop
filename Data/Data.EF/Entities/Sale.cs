@@ -5,7 +5,7 @@ using Data.EF.Enums;
 
 namespace Data.EF.Entities
 {
-    public class Sale : EntityBase
+    public class Sale : IEntityBase
     {
         public long Id { get; set; }
         public DateTime InsertDateUTC { get; set; }

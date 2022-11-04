@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Data.EF.Entities
 {
-    public class User : IdentityUser<long>, EntityBase
+    public class User : IdentityUser<long>, IEntityBase
     {
         public DateTime InsertDateUTC { get; set; }
         public DateTime ModificationDateUTC { get; set; }

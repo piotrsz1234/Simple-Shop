@@ -5,7 +5,7 @@ using Data.EF.Entities.Interfaces;
 
 namespace Data.EF.Entities
 {
-    public class Product : EntityBase
+    public class Product : IEntityBase
     {
         [Required]
         [Key]
