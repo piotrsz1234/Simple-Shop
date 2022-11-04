@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{1D9C836C-C45B-4CB7-BE6B-48701D12C68B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.EF", "Data\Data.EF\Data.EF.csproj", "{B51587CD-5857-4B47-AEA1-8F179D5A2473}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B51587CD-5857-4B47-AEA1-8F179D5A2473} = {1D9C836C-C45B-4CB7-BE6B-48701D12C68B}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B51587CD-5857-4B47-AEA1-8F179D5A2473}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B51587CD-5857-4B47-AEA1-8F179D5A2473}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B51587CD-5857-4B47-AEA1-8F179D5A2473}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B51587CD-5857-4B47-AEA1-8F179D5A2473}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
