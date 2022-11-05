@@ -11,6 +11,7 @@ namespace Data.EF.Entities
         public bool IsDeleted { get; set; }
         public long SaleId { get; set; }
         public long ProductId { get; set; }
+        public decimal Count { get; set; }
         
         public virtual Sale Sale { get; set; }
         public virtual Product Product { get; set; }
