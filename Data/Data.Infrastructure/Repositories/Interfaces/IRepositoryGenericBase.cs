@@ -9,7 +9,7 @@ namespace Data.Infrastructure.Repositories.Interfaces
     public interface IRepositoryGenericBase<T> where T: class, IEntityBase
     {
         T? GetOne(long key);
-        Task<T?> GetOneAsync(long key);
+        Task<T?> GetOneAsync(long key, params Expression<Func<T, object>>[] includes);
 
         IReadOnlyCollection<T> GetAll(Expression<Func<T, bool>> expression,
             params Expression<Func<T, object>>[] includes);

@@ -35,11 +35,18 @@ namespace Data.Infrastructure.Repositories
             }
         }
 
-        public async Task<T?> GetOneAsync(long key)
+        public async Task<T?> GetOneAsync(long key, params Expression<Func<T, object>>[] includes)
         {
             try
             {
-                return await DbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == key);
+                var query = DbContext.Set<T>().AsQueryable();
+
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+                
+                return await query.FirstOrDefaultAsync(x => x.Id == key);
             }
             catch (Exception e)
             {

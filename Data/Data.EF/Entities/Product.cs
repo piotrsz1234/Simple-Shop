@@ -25,6 +25,8 @@ namespace Data.EF.Entities
         public decimal Price { get; set; }
         [Required]
         public bool IsCountable { get; set; }
+        [Required]
+        public decimal VATPercentage { get; set; }
         
         public virtual ICollection<SaleProduct> SaleProduct { get; set; }
 

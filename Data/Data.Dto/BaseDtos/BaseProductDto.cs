@@ -10,5 +10,6 @@ namespace Data.Dto.BaseDtos
         public string Barcode { get; set; }
         public decimal Price { get; set; }
         public bool IsCountable { get; set; }
+        public decimal VATPercentage { get; set; }
     }
 }
