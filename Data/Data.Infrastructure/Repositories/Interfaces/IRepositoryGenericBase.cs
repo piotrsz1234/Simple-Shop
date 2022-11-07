@@ -10,7 +10,7 @@ namespace Data.Infrastructure.Repositories.Interfaces
     {
         T? GetOne(long key);
         Task<T?> GetOneAsync(long key, params Expression<Func<T, object>>[] includes);
-
+        Task<T?> GetOneAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);
         IReadOnlyCollection<T> GetAll(Expression<Func<T, bool>> expression,
             params Expression<Func<T, object>>[] includes);
         Task<IReadOnlyCollection<T>> GetAllAsync(Expression<Func<T, bool>> expression,

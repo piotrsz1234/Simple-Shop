@@ -12,11 +12,11 @@ namespace Data.Infrastructure.Repositories
 {
     public sealed class ProductRepository : RepositoryGenericBase<Product>, IProductRepository
     {
-        public ProductRepository(ShopContext dbContext, ILogger<ProductRepository> logger) : base(dbContext, logger)
+        public ProductRepository(ShopContext dbContext) : base(dbContext)
         {
         }
 
-        public async Task<IReadOnlyCollection<Product>> SearchAsync(string text, int offset, int length)
+        public IReadOnlyCollection<Product> Search(string text, int offset, int length)
         {
             try
             {
@@ -26,14 +26,18 @@ namespace Data.Infrastructure.Repositories
                 {
                     query = query.Where(x => x.Name.Contains(text) || x.Barcode.Contains(text));
                 }
+                
+                if(offset > 0)
+                    query = query.Skip(offset);
+                if(length > 0)
+                    query = query.Take(length);
 
-                query = query.Skip(offset).Take(length);
-
-                return await query.ToArrayAsync();
+                var result = query.ToArray();
+                return result;
             }
             catch (Exception e)
             {
-                Logger.LogError(e.Message, e);
+                Console.WriteLine(e.Message);
                 throw;
             }
         }

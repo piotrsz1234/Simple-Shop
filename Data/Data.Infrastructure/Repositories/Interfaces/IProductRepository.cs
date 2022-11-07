@@ -6,6 +6,6 @@ namespace Data.Infrastructure.Repositories.Interfaces
 {
     public interface IProductRepository : IRepositoryGenericBase<Product>
     {
-        Task<IReadOnlyCollection<Product>> SearchAsync(string text, int offset, int length);
+        IReadOnlyCollection<Product> Search(string text, int offset, int length);
     }
 }

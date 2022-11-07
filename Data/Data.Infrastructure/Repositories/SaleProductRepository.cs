@@ -7,7 +7,7 @@ namespace Data.Infrastructure.Repositories
 {
     public sealed class SaleProductRepository : RepositoryGenericBase<SaleProduct>, ISaleProductRepository
     {
-        public SaleProductRepository(ShopContext dbContext, ILogger<SaleProductRepository> logger) : base(dbContext, logger)
+        public SaleProductRepository(ShopContext dbContext) : base(dbContext)
         {
         }
     }

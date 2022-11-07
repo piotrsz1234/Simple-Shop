@@ -5,12 +5,10 @@ namespace Common.Bll.Services
 {
     public abstract class ServiceBase
     {
-        protected readonly ILogger Logger;
         protected readonly IMapper Mapper;
 
-        public ServiceBase(ILogger logger, IMapper mapper)
+        public ServiceBase(IMapper mapper)
         {
-            Logger = logger;
             Mapper = mapper;
         }
     }

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Common.Bll.Helpers;
 using Common.Bll.Services.Interfaces;
 using Data.Dto.Dtos;
 using Data.Infrastructure.Repositories.Interfaces;
@@ -10,14 +9,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Common.Bll.Services
 {
-    public class SaleService : ServiceBase, ISaleService
+    internal class SaleService : ServiceBase, ISaleService
     {
         private readonly ISaleRepository _saleRepository;
         private readonly ISaleProductRepository _saleProductRepository;
         private readonly IProductRepository _productRepository;
 
-        public SaleService(ILogger logger, IMapper mapper, ISaleRepository saleRepository,
-            ISaleProductRepository saleProductRepository, IProductRepository productRepository) : base(logger, mapper)
+        public SaleService(IMapper mapper, ISaleRepository saleRepository,
+            ISaleProductRepository saleProductRepository, IProductRepository productRepository) : base(mapper)
         {
             _saleRepository = saleRepository;
             _saleProductRepository = saleProductRepository;
@@ -30,7 +29,7 @@ namespace Common.Bll.Services
             {
                 var sale = await _saleRepository.GetOneAsync(id, x => x.SaleProduct, x => x.SalesmanUser);
                 var productIds = sale.SaleProduct.Select(x => x.ProductId).ToArray();
-                var products = await _productRepository.GetAllAsync(x => productIds.Contains(x.ID));
+                var products = await _productRepository.GetAllAsync(x => productIds.Contains(x.Id));
                 var result = Mapper.Map<SaleDto>(sale);
                 result.Items = sale.SaleProduct.Where(x => x.IsDeleted == false).Select(x => new SaleItemDto()
                 {
@@ -42,7 +41,6 @@ namespace Common.Bll.Services
             }
             catch (Exception e)
             {
-                Logger.LogError(e);
                 return null;
             }
         }

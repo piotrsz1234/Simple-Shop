@@ -4,11 +4,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data.EF.Contexts
 {
-    public class ShopContext : IdentityDbContext<User, Role, long>
+    public class ShopContext : DbContext
     {
+        public static string ConnectionString;
         public DbSet<Product> Product { get; set; }
         public DbSet<Sale> Sale { get; set; }
         public DbSet<SaleProduct> SaleProduct { get; set; }
+        public DbSet<User> User { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(ConnectionString);
+            //optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=SimpleShop;Trusted_Connection=True");
+        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -29,14 +37,7 @@ namespace Data.EF.Contexts
                 entity.Property(e => e.ModificationDateUTC).HasDefaultValueSql("GETUTCDATE()");
                 entity.Property(e => e.IsDeleted).HasDefaultValueSql("(0)");
             });
-            
-            builder.Entity<Role>(entity =>
-            {
-                entity.Property(e => e.InsertDateUTC).HasDefaultValueSql("GETUTCDATE()");
-                entity.Property(e => e.ModificationDateUTC).HasDefaultValueSql("GETUTCDATE()");
-                entity.Property(e => e.IsDeleted).HasDefaultValueSql("(0)");
-            });
-            
+
             builder.Entity<Sale>(entity =>
             {
                 entity.Property(e => e.InsertDateUTC).HasDefaultValueSql("GETUTCDATE()");

@@ -7,7 +7,6 @@ using Data.Dto.Models;
 using Data.EF.Entities;
 using Data.Infrastructure.Repositories.Interfaces;
 using Microsoft.Extensions.Logging;
-using Common.Bll.Helpers;
 using Data.Dto.Dtos;
 
 namespace Common.Bll.Services
@@ -16,8 +15,8 @@ namespace Common.Bll.Services
     {
         private readonly IProductRepository _productRepository;
 
-        public ProductService(ILogger<ProductService> logger, IMapper mapper, IProductRepository productRepository) :
-            base(logger, mapper)
+        public ProductService(IMapper mapper, IProductRepository productRepository) :
+            base(mapper)
         {
             _productRepository = productRepository;
         }
@@ -43,7 +42,6 @@ namespace Common.Bll.Services
             }
             catch (Exception e)
             {
-                Logger.LogError(e.Message, e);
                 return false;
             }
         }
@@ -67,7 +65,6 @@ namespace Common.Bll.Services
             }
             catch (Exception e)
             {
-                Logger.LogError(e);
                 return false;
             }
         }
@@ -82,22 +79,35 @@ namespace Common.Bll.Services
             }
             catch (Exception e)
             {
-                Logger.LogError(e);
+                return null;
+            }
+        }
+        
+        public async Task<ProductDto?> GetOneByBarcodeAsync(string barcode)
+        {
+            try
+            {
+                var product = await _productRepository.GetOneAsync(x => x.Barcode == barcode && x.IsDeleted == false);
+
+                return Mapper.Map<ProductDto>(product);
+            }
+            catch (Exception e)
+            {
                 return null;
             }
         }
 
-        public async Task<IReadOnlyCollection<ProductDto>?> SearchAsync(BrowseProductsModel model)
+        public IReadOnlyCollection<ProductDto>? Search(BrowseProductsModel model)
         {
             try
             {
-                var products = await _productRepository.SearchAsync(model.Text, model.Offset, model.Length);
+                var products = _productRepository.Search(model.Text, model.Offset, model.Length);
 
                 return Mapper.Map<IReadOnlyCollection<ProductDto>>(products);
             }
             catch (Exception e)
             {
-                Logger.LogError(e);
+                Console.WriteLine(e.Message);
                 return null;
             }
         }

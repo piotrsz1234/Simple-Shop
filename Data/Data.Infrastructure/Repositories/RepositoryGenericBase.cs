@@ -13,13 +13,11 @@ namespace Data.Infrastructure.Repositories
 {
     public abstract class RepositoryGenericBase<T> : IRepositoryGenericBase<T> where T : class, IEntityBase
     {
-        protected ShopContext DbContext;
-        protected ILogger Logger;
+        protected readonly ShopContext DbContext;
 
-        public RepositoryGenericBase(ShopContext dbContext, ILogger logger)
+        public RepositoryGenericBase(ShopContext dbContext)
         {
             DbContext = dbContext;
-            Logger = logger;
         }
 
         public T? GetOne(long key)
@@ -30,7 +28,6 @@ namespace Data.Infrastructure.Repositories
             }
             catch (Exception e)
             {
-                Logger.LogError(e.Message, e);
                 throw;
             }
         }
@@ -50,7 +47,25 @@ namespace Data.Infrastructure.Repositories
             }
             catch (Exception e)
             {
-                Logger.LogError(e.Message, e);
+                throw;
+            }
+        }
+        
+        public async Task<T?> GetOneAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+        {
+            try
+            {
+                var query = DbContext.Set<T>().AsQueryable();
+
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+                
+                return await query.FirstOrDefaultAsync(predicate);
+            }
+            catch (Exception e)
+            {
                 throw;
             }
         }
@@ -71,7 +86,6 @@ namespace Data.Infrastructure.Repositories
             }
             catch (Exception e)
             {
-                Logger.LogError(e.Message, e);
                 throw;
             }
         }
@@ -92,7 +106,6 @@ namespace Data.Infrastructure.Repositories
             }
             catch (Exception e)
             {
-                Logger.LogError(e.Message, e);
                 throw;
             }
         }
@@ -108,7 +121,6 @@ namespace Data.Infrastructure.Repositories
             }
             catch (Exception e)
             {
-                Logger.LogError(e.Message, e);
                 throw;
             }
         }
@@ -124,7 +136,6 @@ namespace Data.Infrastructure.Repositories
             }
             catch (Exception e)
             {
-                Logger.LogError(e.Message, e);
                 throw;
             }
         }
@@ -137,7 +148,6 @@ namespace Data.Infrastructure.Repositories
             }
             catch (Exception e)
             {
-                Logger.LogError(e.Message, e);
                 throw;
             }
         }
@@ -150,7 +160,6 @@ namespace Data.Infrastructure.Repositories
             }
             catch (Exception e)
             {
-                Logger.LogError(e.Message, e);
                 throw;
             }
         }

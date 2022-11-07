@@ -5,9 +5,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Data.Infrastructure.Repositories
 {
-    public sealed class SaleRepository : RepositoryGenericBase<Sale>, ISaleRepository
+    public class UserRepository: RepositoryGenericBase<User>, IUserRepository
     {
-        public SaleRepository(ShopContext dbContext) : base(dbContext)
+        public UserRepository(ShopContext dbContext) : base(dbContext)
         {
         }
     }
