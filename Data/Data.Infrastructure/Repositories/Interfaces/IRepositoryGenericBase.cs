@@ -16,6 +16,9 @@ namespace Data.Infrastructure.Repositories.Interfaces
         Task<IReadOnlyCollection<T>> GetAllAsync(Expression<Func<T, bool>> expression,
             params Expression<Func<T, object>>[] includes);
 
+        Task<bool> AnyAsync(Expression<Func<T, bool>> expression);
+        bool Any(Expression<Func<T, bool>> expression);
+        
         void Add(T entity);
         Task AddAsync(T entity);
         void SaveChanges();

@@ -14,8 +14,8 @@ namespace Data.EF.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(ConnectionString);
-            //optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=SimpleShop;Trusted_Connection=True");
+            //optionsBuilder.UseSqlServer(ConnectionString);
+            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=SimpleShop;Trusted_Connection=True");
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

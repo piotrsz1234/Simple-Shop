@@ -1,8 +1,11 @@
-﻿using Autofac;
+﻿using System;
+using System.Collections.Generic;
+using Autofac;
 using Common.Bll.Services.Interfaces;
 using Data.Dto.Dtos;
 using Data.Dto.Models;
 using System.Data;
+using System.Linq;
 using Terminal.Gui;
 
 namespace TextInterface.UI
@@ -14,9 +17,9 @@ namespace TextInterface.UI
 
         public ProductListWindow()
         {
-            _currentProducts = Array.Empty<ProductDto>();
             _productService = AutofacConfig.GetContainer().Resolve<IProductService>();
-
+            _currentProducts = _productService.Search(new BrowseProductsModel());
+            
             var leftFrame = new FrameView() {
                 X = 0,
                 Y = 1,
@@ -43,15 +46,17 @@ namespace TextInterface.UI
                 Height = Dim.Fill()
             };
 
-            txtSearch.TextChanged += async text => {
-                _currentProducts = _productService.Search(new BrowseProductsModel() {
-                        Text = txtSearch.Text?.ToString() ?? string.Empty
-                    }
-                    );
-
-                RedrawTable(mainListView);
+            txtSearch.TextChanged += text => {
+                Search(txtSearch, mainListView);
             };
 
+            mainListView.SelectedItemChanged += args =>
+            {
+                EventManager.RaiseShowProductDetailsEvent(_currentProducts.ElementAt(args.Item));
+            };
+            
+            RedrawTable(mainListView);
+            
             leftFrame.Add(searchLabel, txtSearch, mainListView);
             Add(leftFrame);
 
@@ -61,7 +66,21 @@ namespace TextInterface.UI
                 Width = Dim.Fill(),
                 Height = Dim.Fill()
             };
+            
             Add(rightFrame);
+
+            EventManager.OnProductSaved += () =>
+            {
+                Search(txtSearch, mainListView);
+            };
+
+            this.KeyDown += args =>
+            {
+                if (args.KeyEvent.Key == Key.Esc)
+                {
+                    EventManager.RaiseGoBackEvent(this);
+                }
+            };
         }
 
         private void RedrawTable(ListView listView)
@@ -72,6 +91,16 @@ namespace TextInterface.UI
             }
 
             listView.SetSource(_currentProducts.Select(x => x.Name).ToArray());
+        }
+
+        private void Search(TextField txtSearch, ListView mainListView)
+        {
+            _currentProducts = _productService.Search(new BrowseProductsModel() {
+                    Text = txtSearch.Text?.ToString() ?? string.Empty
+                }
+            );
+
+            RedrawTable(mainListView);
         }
     }
 }

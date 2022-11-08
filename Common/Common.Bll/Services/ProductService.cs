@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Common.Bll.Services.Enums;
 using Common.Bll.Services.Interfaces;
 using Data.Dto.Models;
 using Data.EF.Entities;
@@ -21,28 +22,69 @@ namespace Common.Bll.Services
             _productRepository = productRepository;
         }
 
-        public async Task<bool> AddEditProductAsync(AddEditProductModel model)
+        public async Task<AddEditProductResult> AddEditProductAsync(AddEditProductModel model)
         {
             try
             {
                 if (model.Id.HasValue)
                 {
                     var alreadyExisting = await _productRepository.GetOneAsync(model.Id.Value);
+
                     if (alreadyExisting != null)
                     {
                         alreadyExisting.IsDeleted = true;
                         alreadyExisting.ModificationDateUTC = DateTime.UtcNow;
                     }
                 }
+                else if (await _productRepository.AnyAsync(x => x.Barcode == model.Barcode && x.IsDeleted == false))
+                    return AddEditProductResult.BarcodeAlreadyExists;
 
+                if (string.IsNullOrWhiteSpace(model.Name) || string.IsNullOrWhiteSpace(model.Barcode))
+                {
+                    return AddEditProductResult.Error;
+                }
+                
                 var newEntity = Mapper.Map<Product>(model);
                 await _productRepository.AddAsync(newEntity);
                 await _productRepository.SaveChangesAsync();
-                return true;
+                return AddEditProductResult.Ok;
             }
             catch (Exception e)
             {
-                return false;
+                return AddEditProductResult.Error;
+            }
+        }
+        
+        public AddEditProductResult AddEditProduct(AddEditProductModel model)
+        {
+            try
+            {
+                if (model.Id.HasValue)
+                {
+                    var alreadyExisting = _productRepository.GetOne(model.Id.Value);
+
+                    if (alreadyExisting != null)
+                    {
+                        alreadyExisting.IsDeleted = true;
+                        alreadyExisting.ModificationDateUTC = DateTime.UtcNow;
+                    }
+                }
+                else if (_productRepository.Any(x => x.Barcode == model.Barcode && x.IsDeleted == false))
+                    return AddEditProductResult.BarcodeAlreadyExists;
+
+                if (string.IsNullOrWhiteSpace(model.Name) || string.IsNullOrWhiteSpace(model.Barcode))
+                {
+                    return AddEditProductResult.Error;
+                }
+                
+                var newEntity = Mapper.Map<Product>(model);
+                _productRepository.Add(newEntity);
+                _productRepository.SaveChanges();
+                return AddEditProductResult.Ok;
+            }
+            catch (Exception e)
+            {
+                return AddEditProductResult.Error;
             }
         }
 
@@ -68,6 +110,30 @@ namespace Common.Bll.Services
                 return false;
             }
         }
+        
+        public bool RemoveProduct(long productId)
+        {
+            try
+            {
+                var product = _productRepository.GetOne(productId);
+                
+                if (product is null)
+                {
+                    return false;
+                }
+
+                product.IsDeleted = true;
+                product.ModificationDateUTC = DateTime.UtcNow;
+
+                _productRepository.SaveChanges();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
 
         public async Task<ProductDto?> GetOneAsync(long id)
         {
@@ -82,7 +148,7 @@ namespace Common.Bll.Services
                 return null;
             }
         }
-        
+
         public async Task<ProductDto?> GetOneByBarcodeAsync(string barcode)
         {
             try

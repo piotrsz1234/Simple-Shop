@@ -110,6 +110,23 @@ namespace Data.Infrastructure.Repositories
             }
         }
 
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> expression)
+        {
+            try
+            {
+                return await DbContext.Set<T>().AnyAsync(expression);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+        public bool Any(Expression<Func<T, bool>> expression)
+        {
+            return DbContext.Set<T>().Any(expression);
+        }
+
         public void Add(T entity)
         {
             try

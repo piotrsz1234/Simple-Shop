@@ -67,6 +67,14 @@ namespace TextInterface.UI
             EventManager.OnShowProductList += () => {
                 Application.Run<ProductListWindow>();
             };
+
+            EventManager.OnGoBack += requester =>
+            {
+                if (requester == typeof(ProductListWindow))
+                {
+                    Application.Run<AdminMainWindow>();
+                }
+            };
         }
 
         private IConfiguration GetConfiguration()

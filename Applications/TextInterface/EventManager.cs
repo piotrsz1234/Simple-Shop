@@ -1,4 +1,6 @@
-﻿using Data.Dto.Dtos;
+﻿using System;
+using Data.Dto.Dtos;
+using TextInterface.UI;
 
 namespace TextInterface
 {
@@ -10,6 +12,9 @@ namespace TextInterface
         public delegate void ShowProductList();
         public delegate void RequestLogout();
         public delegate void SuccessfulLogout();
+        public delegate void ProductSaved();
+        public delegate void GoBack(Type requestor);
+        public delegate void ShowProductDetails(ProductDto? product);
 
         public static event RequestLogin? OnRequestLogin;
         public static event LoginFailed? OnLoginFailed;
@@ -17,6 +22,9 @@ namespace TextInterface
         public static event ShowProductList? OnShowProductList;
         public static event RequestLogout? OnRequestLogout;
         public static event SuccessfulLogout? OnSuccessfulLogout;
+        public static event ShowProductDetails? OnShowProductDetails;
+        public static event ProductSaved? OnProductSaved;
+        public static event GoBack? OnGoBack;
 
         public static void RaiseRequestLoginEvent(string? code)
         {
@@ -48,6 +56,21 @@ namespace TextInterface
         public static void RaiseSuccessfulLogoutEvent()
         {
             OnSuccessfulLogout?.Invoke();
+        }
+
+        public static void RaiseShowProductDetailsEvent(ProductDto? product)
+        {
+            OnShowProductDetails?.Invoke(product);
+        }
+
+        public static void RaiseProductSavedEvent()
+        {
+            OnProductSaved?.Invoke();
+        }
+
+        public static void RaiseGoBackEvent(ProductListWindow productListWindow)
+        {
+            OnGoBack?.Invoke(productListWindow.GetType());
         }
     }
 }
