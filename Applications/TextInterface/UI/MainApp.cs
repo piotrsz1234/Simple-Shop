@@ -86,6 +86,10 @@ namespace TextInterface.UI
                     {
                         Application.Run<AdminMainWindow>();
                     }
+                    else
+                    {
+                        Application.Run<RegularUserMainWindow>();
+                    }
                 }
             };
 
