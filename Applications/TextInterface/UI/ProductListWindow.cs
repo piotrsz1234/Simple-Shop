@@ -52,7 +52,8 @@ namespace TextInterface.UI
 
             mainListView.SelectedItemChanged += args =>
             {
-                EventManager.RaiseShowProductDetailsEvent(_currentProducts.ElementAt(args.Item));
+                if(_currentProducts.Count > 0)
+                    EventManager.RaiseShowProductDetailsEvent(_currentProducts.ElementAt(args.Item));
             };
             
             RedrawTable(mainListView);

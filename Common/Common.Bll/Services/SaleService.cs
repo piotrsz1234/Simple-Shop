@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Common.Bll.Services.Enums;
 using Common.Bll.Services.Interfaces;
 using Data.Dto.Dtos;
+using Data.Dto.Models;
+using Data.EF.Entities;
+using Data.EF.Enums;
 using Data.Infrastructure.Repositories.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -42,6 +47,39 @@ namespace Common.Bll.Services
             catch (Exception e)
             {
                 return null;
+            }
+        }
+
+        public SaveSaleResult SaveSale(IReadOnlyCollection<AddSaleProductModel> models, long userId)
+        {
+            try
+            {
+                var sale = new Sale()
+                {
+                    PaymentMethod = PaymentMethod.Cash,
+                    SalesmanUserId = userId
+                };
+                
+                _saleRepository.Add(sale);
+                _saleRepository.SaveChanges();
+
+                foreach (var model in models)
+                {
+                    _saleProductRepository.Add(new SaleProduct()
+                    {
+                        Count = model.Count,
+                        ProductId = model.ProductId,
+                        SaleId = sale.Id
+                    });
+                }
+                
+                _saleProductRepository.SaveChanges();
+
+                return SaveSaleResult.Ok;
+            }
+            catch (Exception e)
+            {
+                return SaveSaleResult.Error;
             }
         }
     }

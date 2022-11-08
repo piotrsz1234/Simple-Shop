@@ -23,7 +23,6 @@ namespace TextInterface.UI
 
         internal void StartApplication()
         {
-           
             InitEvents();
             
             if (User is null) {
@@ -79,6 +78,19 @@ namespace TextInterface.UI
                 {
                     Application.Run<AdminMainWindow>();
                 }
+
+                if (requester == typeof(ShopCashWindow))
+                {
+                    if (User?.IsAdmin == true)
+                    {
+                        Application.Run<AdminMainWindow>();
+                    }
+                }
+            };
+
+            EventManager.OnEnterCashRegisterMode += () =>
+            {
+                Application.Run<ShopCashWindow>();
             };
         }
 

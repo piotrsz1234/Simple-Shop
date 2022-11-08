@@ -31,6 +31,18 @@ namespace Data.Infrastructure.Repositories
                 throw;
             }
         }
+        
+        public T? GetOne(Expression<Func<T, bool>> predicate)
+        {
+            try
+            {
+                return DbContext.Set<T>().FirstOrDefault(predicate);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
 
         public async Task<T?> GetOneAsync(long key, params Expression<Func<T, object>>[] includes)
         {

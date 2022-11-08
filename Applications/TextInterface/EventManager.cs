@@ -1,5 +1,6 @@
 ﻿using System;
 using Data.Dto.Dtos;
+using Data.Dto.Models;
 using TextInterface.UI;
 
 namespace TextInterface
@@ -15,9 +16,12 @@ namespace TextInterface
         public delegate void SuccessfulLogout();
         public delegate void ProductSaved();
         public delegate void UserSaved();
+        public delegate void EnterRaiseCashRegisterMode();
+        public delegate void DiscardBasket();
         public delegate void GoBack(Type requestor);
         public delegate void ShowProductDetails(ProductDto? product);
         public delegate void ShowUserDetails(UserDto product);
+        public delegate void AddItemToBasket(AddSaleProductModel model);
 
         public static event RequestLogin? OnRequestLogin;
         public static event LoginFailed? OnLoginFailed;
@@ -31,6 +35,9 @@ namespace TextInterface
         public static event ShowUserDetails? OnShowUserDetails;
         public static event UserSaved OnUserSaved;
         public static event ShowUserList OnShowUserList;
+        public static event EnterRaiseCashRegisterMode OnEnterCashRegisterMode;
+        public static event AddItemToBasket OnAddItemToBasket;
+        public static event DiscardBasket OnDiscardBasket;
 
         public static void RaiseRequestLoginEvent(string? code)
         {
@@ -92,6 +99,21 @@ namespace TextInterface
         public static void RaiseShowUserListEvent()
         {
             OnShowUserList?.Invoke();
+        }
+
+        public static void RaiseCashRegisterModeEvent()
+        {
+            OnEnterCashRegisterMode?.Invoke();
+        }
+        
+        public static void RaiseAddItemToBasketEvent(AddSaleProductModel model)
+        {
+            OnAddItemToBasket?.Invoke(model);
+        }
+
+        public static void RaiseDiscardBasketEvent()
+        {
+            OnDiscardBasket?.Invoke();
         }
     }
 }

@@ -31,6 +31,9 @@ namespace TextInterface.UI
                     case 1:
                         EventManager.RaiseShowUserListEvent();
                         break;
+                    case 2:
+                        EventManager.RaiseCashRegisterModeEvent();
+                        break;
                    default:
                         EventManager.RaiseRequestLogoutEvent();
                         break;

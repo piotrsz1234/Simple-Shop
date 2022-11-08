@@ -149,11 +149,11 @@ namespace Common.Bll.Services
             }
         }
 
-        public async Task<ProductDto?> GetOneByBarcodeAsync(string barcode)
+        public ProductDto? GetOneByBarcode(string barcode)
         {
             try
             {
-                var product = await _productRepository.GetOneAsync(x => x.Barcode == barcode && x.IsDeleted == false);
+                var product = _productRepository.GetOne(x => x.Barcode == barcode && x.IsDeleted == false);
 
                 return Mapper.Map<ProductDto>(product);
             }

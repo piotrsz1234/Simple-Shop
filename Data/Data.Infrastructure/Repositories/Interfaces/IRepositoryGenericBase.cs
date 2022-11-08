@@ -8,6 +8,7 @@ namespace Data.Infrastructure.Repositories.Interfaces
 {
     public interface IRepositoryGenericBase<T> where T: class, IEntityBase
     {
+        T? GetOne(Expression<Func<T, bool>> predicate);
         T? GetOne(long key);
         Task<T?> GetOneAsync(long key, params Expression<Func<T, object>>[] includes);
         Task<T?> GetOneAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);

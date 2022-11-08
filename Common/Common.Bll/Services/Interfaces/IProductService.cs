@@ -12,7 +12,7 @@ namespace Common.Bll.Services.Interfaces
         Task<bool> RemoveProductAsync(long productId);
         bool RemoveProduct(long productId);
         IReadOnlyCollection<ProductDto>? Search(BrowseProductsModel model);
-        Task<ProductDto?> GetOneByBarcodeAsync(string barcode);
+        ProductDto? GetOneByBarcode(string barcode);
         AddEditProductResult AddEditProduct(AddEditProductModel model);
     }
 }
