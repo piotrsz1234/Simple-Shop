@@ -18,8 +18,9 @@ namespace TextInterface.UI
             
             menu.SetSource(new List<string>() {
                 "1. Edit product list",
-                "2. Open cash register mode",
-                "3. Logout"
+                "2. Manage user list",
+                "3. Open cash register mode",
+                "4. Logout"
             });
 
             menu.OpenSelectedItem += args => {
@@ -28,8 +29,9 @@ namespace TextInterface.UI
                         EventManager.RaiseShowProductListEvent();
                         break;
                     case 1:
+                        EventManager.RaiseShowUserListEvent();
                         break;
-                    case 2:
+                   default:
                         EventManager.RaiseRequestLogoutEvent();
                         break;
                 }

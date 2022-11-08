@@ -10,11 +10,14 @@ namespace TextInterface
         public delegate void LoginFailed();
         public delegate void SuccessfulLogin(UserDto user);
         public delegate void ShowProductList();
+        public delegate void ShowUserList();
         public delegate void RequestLogout();
         public delegate void SuccessfulLogout();
         public delegate void ProductSaved();
+        public delegate void UserSaved();
         public delegate void GoBack(Type requestor);
         public delegate void ShowProductDetails(ProductDto? product);
+        public delegate void ShowUserDetails(UserDto product);
 
         public static event RequestLogin? OnRequestLogin;
         public static event LoginFailed? OnLoginFailed;
@@ -25,6 +28,9 @@ namespace TextInterface
         public static event ShowProductDetails? OnShowProductDetails;
         public static event ProductSaved? OnProductSaved;
         public static event GoBack? OnGoBack;
+        public static event ShowUserDetails? OnShowUserDetails;
+        public static event UserSaved OnUserSaved;
+        public static event ShowUserList OnShowUserList;
 
         public static void RaiseRequestLoginEvent(string? code)
         {
@@ -68,9 +74,24 @@ namespace TextInterface
             OnProductSaved?.Invoke();
         }
 
-        public static void RaiseGoBackEvent(ProductListWindow productListWindow)
+        public static void RaiseGoBackEvent(object productListWindow)
         {
             OnGoBack?.Invoke(productListWindow.GetType());
+        }
+
+        public static void RaiseShowUserDetails(UserDto user)
+        {
+            OnShowUserDetails?.Invoke(user);
+        }
+
+        public static void RaiseUserSavedEvent()
+        {
+            OnUserSaved?.Invoke();
+        }
+
+        public static void RaiseShowUserListEvent()
+        {
+            OnShowUserList?.Invoke();
         }
     }
 }

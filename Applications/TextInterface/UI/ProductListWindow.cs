@@ -40,7 +40,7 @@ namespace TextInterface.UI
             };
 
             var mainListView = new ListView() {
-                X = 2,
+                X = 0,
                 Y = searchLabel.Y + 1,
                 Width = Dim.Fill(),
                 Height = Dim.Fill()

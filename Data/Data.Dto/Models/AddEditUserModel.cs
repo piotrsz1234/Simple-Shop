@@ -1,8 +1,8 @@
-﻿namespace Data.Dto.Dtos
+﻿namespace Data.Dto.Models
 {
-    public sealed class UserDto
+    public class AddEditUserModel
     {
-        public long Id { get; set; }
+        public long? Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string LoginCode { get; set; }

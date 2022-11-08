@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using Common.Bll.Services.Interfaces;
 using Data.Dto.Dtos;
 using Data.EF.Contexts;
@@ -9,7 +10,7 @@ namespace TextInterface.UI
 {
     internal sealed class MainApp : IDisposable
     {
-        private UserDto? _user;
+        internal static UserDto? User;
         private readonly IContainer _container;
         private readonly IConfiguration _configuration;
 
@@ -25,7 +26,7 @@ namespace TextInterface.UI
            
             InitEvents();
             
-            if (_user is null) {
+            if (User is null) {
                 Application.Run<LoginWindow>();
             }
         }
@@ -50,13 +51,13 @@ namespace TextInterface.UI
             };
 
             EventManager.OnSuccessfulLogin += user => {
-                _user = user;
-                if(_user.IsAdmin)
+                MainApp.User = user;
+                if(MainApp.User.IsAdmin)
                     Application.Run<AdminMainWindow>();
             };
 
             EventManager.OnRequestLogout += () => {
-                _user = null;
+                User = null;
                 EventManager.RaiseSuccessfulLogoutEvent();
             };
 
@@ -67,10 +68,14 @@ namespace TextInterface.UI
             EventManager.OnShowProductList += () => {
                 Application.Run<ProductListWindow>();
             };
+            
+            EventManager.OnShowUserList += () => {
+                Application.Run<UserListWindow>();
+            };
 
             EventManager.OnGoBack += requester =>
             {
-                if (requester == typeof(ProductListWindow))
+                if (requester == typeof(ProductListWindow) || requester == typeof(UserListWindow))
                 {
                     Application.Run<AdminMainWindow>();
                 }
