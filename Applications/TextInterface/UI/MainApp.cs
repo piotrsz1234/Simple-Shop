@@ -53,6 +53,7 @@ namespace TextInterface.UI
                 MainApp.User = user;
                 if(MainApp.User.IsAdmin)
                     Application.Run<AdminMainWindow>();
+                else Application.Run<RegularUserMainWindow>();
             };
 
             EventManager.OnRequestLogout += () => {
