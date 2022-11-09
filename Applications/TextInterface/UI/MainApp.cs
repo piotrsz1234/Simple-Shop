@@ -50,6 +50,7 @@ namespace TextInterface.UI
             };
 
             EventManager.OnSuccessfulLogin += user => {
+                Application.Shutdown();
                 MainApp.User = user;
                 if(MainApp.User.IsAdmin)
                     Application.Run<AdminMainWindow>();
@@ -62,14 +63,17 @@ namespace TextInterface.UI
             };
 
             EventManager.OnSuccessfulLogout += () => {
+                Application.Shutdown();
                 Application.Run<LoginWindow>();
             };
 
             EventManager.OnShowProductList += () => {
+                Application.Shutdown();
                 Application.Run<ProductListWindow>();
             };
             
             EventManager.OnShowUserList += () => {
+                Application.Shutdown();
                 Application.Run<UserListWindow>();
             };
 
@@ -77,6 +81,7 @@ namespace TextInterface.UI
             {
                 if (requester == typeof(ProductListWindow) || requester == typeof(UserListWindow))
                 {
+                    Application.Shutdown();
                     Application.Run<AdminMainWindow>();
                 }
 
@@ -84,10 +89,12 @@ namespace TextInterface.UI
                 {
                     if (User?.IsAdmin == true)
                     {
+                        Application.Shutdown();
                         Application.Run<AdminMainWindow>();
                     }
                     else
                     {
+                        Application.Shutdown();
                         Application.Run<RegularUserMainWindow>();
                     }
                 }

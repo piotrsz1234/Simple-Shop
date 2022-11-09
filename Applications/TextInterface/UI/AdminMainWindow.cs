@@ -24,6 +24,8 @@ namespace TextInterface.UI
             });
 
             menu.OpenSelectedItem += args => {
+                if(Application.Top.GetType() != typeof(AdminMainWindow))
+                    return;
                 switch (args.Item) {
                     case 0:
                         EventManager.RaiseShowProductListEvent();

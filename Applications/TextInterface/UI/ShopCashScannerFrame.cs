@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
+using Common.Bll.Helpers;
 using Common.Bll.Services.Interfaces;
 using Data.Dto.Dtos;
 using Data.Dto.Models;
@@ -11,6 +12,7 @@ namespace TextInterface.UI
 {
     public sealed class ShopCashScannerFrame : FrameView
     {
+        private Label _lblError;
         private Label _lblSearch;
         private TextField _txtSearch;
         private ListView _mainListView;
@@ -105,8 +107,20 @@ namespace TextInterface.UI
                 Y = _txtBarcode.Y,
                 Text = "Scan"
             };
+
+            _lblError = new Label()
+            {
+                X = 0,
+                Y = Pos.Bottom(_btnScan),
+                Width = Dim.Fill(),
+                TextAlignment = TextAlignment.Centered,
+                ColorScheme = new ColorScheme()
+                {
+                    Normal = Terminal.Gui.Attribute.Make(Color.Red, Color.Blue)
+                }
+            };
             
-            Add(_lblSearch, _txtSearch, _mainListView, _lblCount, _txtCount, _lblBarcode, _txtBarcode, _btnScan);
+            Add(_lblSearch, _txtSearch, _mainListView, _lblCount, _txtCount, _lblBarcode, _txtBarcode, _btnScan, _lblError);
 
             InitControls();
 
@@ -136,12 +150,36 @@ namespace TextInterface.UI
             {
                 AddItem();
             };
+
+            _txtBarcode.KeyDown += args =>
+            {
+                if (args.KeyEvent.Key == Key.Enter)
+                {
+                    AddItem();
+                }
+            };
+            
+            _txtCount.KeyDown += args =>
+            {
+                if (args.KeyEvent.Key == Key.Enter)
+                {
+                    AddItem();
+                }
+            };
+
+            _txtCount.TextChanged += oldValue =>
+            {
+                if (!Extensions.IsUDecimal(_txtCount.Text.ToString()))
+                    _txtCount.Text = oldValue;
+            };
         }
 
         private void AddItem()
         {
+            _lblError.Text = string.Empty;
             if (string.IsNullOrWhiteSpace(_txtBarcode.Text.ToString()) || string.IsNullOrWhiteSpace(_txtCount.Text.ToString()))
             {
+                _lblError.Text = "No barcode or amount provided";
                 return;
             }
 
@@ -149,9 +187,22 @@ namespace TextInterface.UI
 
             if (currentProduct is null)
             {
+                _lblError.Text = "Wrong barcode!";
                 return;
             }
-            
+
+            if (currentProduct.IsCountable && !Extensions.IsInteger(_txtCount.Text.ToString()))
+            {
+                _lblError.Text = "Product is countable";
+                return;
+            }
+
+            if (!currentProduct.IsCountable && !Extensions.IsUDecimal(_txtCount.Text.ToString()))
+            {
+                _lblError.Text = "Product should have amount";
+                return;
+            }
+
             EventManager.RaiseAddItemToBasketEvent(new AddSaleProductModel()
             {
                 Count = decimal.Parse(_txtCount.Text.ToString()),
@@ -163,7 +214,7 @@ namespace TextInterface.UI
 
             _txtCount.Text = _txtBarcode.Text = string.Empty;
             
-            _txtBarcode.EnsureFocus();
+            _txtBarcode.SetFocus();
         }
         
         private void ReloadListView()

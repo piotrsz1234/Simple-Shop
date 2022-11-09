@@ -28,5 +28,19 @@ namespace Common.Bll.Helpers
             
             return int.TryParse(text, out _);
         }
+        
+        public static bool IsUDecimal(string? text)
+        {
+            if (string.IsNullOrEmpty(text)) return true;
+
+            if (decimal.TryParse(text, out var value))
+            {
+                if (value < 0) return false;
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }
