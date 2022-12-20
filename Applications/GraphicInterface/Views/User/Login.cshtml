@@ -1,0 +1,17 @@
+﻿@model string
+<div class="col-4 offset-4">
+<form asp-controller="User" asp-action="Login" method="POST">
+    <div class="row text-left">
+        <div class="col-12">
+            <div class="mb-3">
+                <label for="txtUserCode" class="form-label">User code</label>
+                <input  class="form-control" name="Code" id="txtUserCode" placeholder="User code">
+            </div>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-12">
+                <button class="btn btn-primary">Login</button>
+            </div>
+        </div>
+</form></div>

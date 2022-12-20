@@ -1,0 +1,60 @@
+﻿@using System.Globalization
+@model Data.Dto.Models.AddEditProductModel?
+
+<form asp-action="AddEdit" METHOD="post">
+    @if (Model != null) {
+        <input type="hidden" name="Id" value="@Model.Id"/>
+    }
+    <div class="row">
+        <div class="col-12">
+            <div class="mb-3">
+                <label for="txtFirstName" class="form-label">Name</label>
+                <input class="form-control" name="Name" id="txtFirstName" placeholder="First name" value="@Model?.Name">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="mb-3">
+                <label for="txtLastName" class="form-label">Barcode</label>
+                <input class="form-control" name="Barcode" id="txtLastName" placeholder="Last name" value="@Model?.Barcode">
+            </div>
+        </div>
+    </div>
+    <div class="row">   
+        <div class="col-12">
+            <div class="mb-3">
+                <label for="txtCode" class="form-label">Price</label>
+                @Html.TextBoxFor(x => x.Price, new {@class = "form-control"})
+        </div>
+    </div>
+     <div class="row">
+            <div class="col-12">
+                <div class="mb-3">
+                    <label for="txtCode" class="form-label">VAT percentage</label>
+                   @Html.TextBoxFor(x => x.VATPercentage, new {@class = "form-control"})
+                </div>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-12">
+            @Html.CheckBoxFor(x => x.IsCountable, new { @class = "form-check-input" })
+            <label class="form-check-label">
+                Is Countable
+            </label>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-12">
+                @Html.CheckBoxFor(x => x.IsAgeRestricted, new { @class = "form-check-input" })
+                <label class="form-check-label">
+                    Is age restricted
+                </label>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-12">
+            <button class="btn btn-primary">Save</button>
+        </div>
+    </div>
+</form>

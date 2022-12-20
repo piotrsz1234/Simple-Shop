@@ -108,5 +108,19 @@ namespace Common.Bll.Services
                 return false;
             }
         }
+
+        public UserDto? GetOne(long id)
+        {
+            try
+            {
+                var user = _userRepository.GetOne(id);
+
+                return Mapper.Map<UserDto>(user);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
     }
 }

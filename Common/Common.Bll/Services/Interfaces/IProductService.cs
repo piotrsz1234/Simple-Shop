@@ -14,5 +14,6 @@ namespace Common.Bll.Services.Interfaces
         IReadOnlyCollection<ProductDto>? Search(BrowseProductsModel model);
         ProductDto? GetOneByBarcode(string barcode);
         AddEditProductResult AddEditProduct(AddEditProductModel model);
+        ProductDto? GetOne(long productId);
     }
 }

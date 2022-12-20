@@ -1,0 +1,77 @@
+﻿<script src="/ViewScripts/Register.js"></script>
+<div class="row" style="max-height: 75vh; height: 75vh">
+    <div class="col-4" style="height: 100%">
+        <table class="table table-striped table-light" id="tblCurrentItems">
+            <tbody>
+            <template id="leftItemTemplate">
+                <tr class="text-center align-middle">
+                    <th scope="row">{1}</th>
+                    <td>{2}</td>
+                    <td>
+                        <button class="btn btn-secondary" onclick="removeItem('{0}')">Remove</button>
+                    </td>
+                </tr>
+            </template>
+            </tbody>
+        </table>
+    </div>
+    <div class="col">
+        <div class="row mb-1">
+            <div class="col-12">
+                <input id="txtSearch" class="form-control" placeholder="Search"/>
+            </div>
+        </div>
+        <div class="row"></div>
+        <table class="table table-striped table-light" id="tblSearch">
+            <thead>
+            <tr class="text-center">
+                <th scope="col">Name</th>
+                <th scope="col">Barcode</th>
+                <th scope="col">Price</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <template id="searchItemTemplate">
+                <tr class="text-center align-middle">
+                    <th scope="row">{0}</th>
+                    <td>{1}</td>
+                    <td>{3}</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="fillScan('{1}', {2})">Fill</button>
+                    </td>
+                </tr>
+            </template>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-8 offset-4">
+        <div class="row">
+            <div class="col-2">
+                <input class="form-control" name="txtCount" placeholder="Amount"/>
+            </div>
+            <div class="col-6">
+                <input class="form-control" name="txtBarcode" placeholder="Barcode"/>
+            </div>
+            <div class="col-4">
+                <button class="btn btn-secondary" id="btnScan">Scan</button>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-2">
+                <input class="form-control" id="txtRequestedMoney" readonly>
+            </div>
+            <div class="col-4">
+                <input class="form-control" id="txtMoney" placeholder="Money"/>
+            </div>
+            <div class="col-2">
+                <input class="form-control" id="txtChange" readonly>
+            </div>
+            <div class="col">
+                <button id="btnSave" class="btn btn-outline-success d-none">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

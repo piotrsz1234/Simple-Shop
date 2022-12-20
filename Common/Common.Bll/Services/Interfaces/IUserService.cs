@@ -12,5 +12,6 @@ namespace Common.Bll.Services.Interfaces
         IReadOnlyCollection<UserDto>? Search(string name);
         AddEditUserResult AddEditUser(AddEditUserModel model);
         bool RemoveUser(long userId);
+        UserDto? GetOne(long id);
     }
 }

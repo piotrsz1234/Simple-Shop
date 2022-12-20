@@ -1,6 +1,7 @@
 ﻿using Data.EF.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Data.EF.Contexts
 {
@@ -11,6 +12,15 @@ namespace Data.EF.Contexts
         public DbSet<Sale> Sale { get; set; }
         public DbSet<SaleProduct> SaleProduct { get; set; }
         public DbSet<User> User { get; set; }
+
+        public ShopContext()
+        {
+        }
+        
+        public ShopContext(DbContextOptions<ShopContext> options) : base(options)
+        {
+            
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -88,6 +88,13 @@ namespace Common.Bll.Services
             }
         }
 
+        public ProductDto? GetOne(long productId)
+        {
+            var product = _productRepository.GetOne(productId);
+
+            return Mapper.Map<ProductDto>(product);
+        }
+
         public async Task<bool> RemoveProductAsync(long productId)
         {
             try
